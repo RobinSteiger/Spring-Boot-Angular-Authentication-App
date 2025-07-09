@@ -1,0 +1,33 @@
+spring:
+    # Use .env file
+    config:
+        import: "file:./.env[.properties]"
+    # MySQL Configuration
+    datasource:
+        url: jdbc:mysql://localhost:3306/${MYSQL_DATABASE:db}?createDatabaseIfNotExist=true&autoReconnect=true&sslMode=DISABLED&allowPublicKeyRetrieval=true
+        username: ${MYSQL_USER:root}
+        password: ${MYSQL_PASSWORD:root}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    # JPA Configuration
+    jpa:
+        hibernate:
+            ddl-auto: update
+    # use ddl-auto: create-drop to reinitialise all the DB while dev, never in production
+    # Message format
+    messages:
+        basename: messages
+        encoding: UTF-8
+
+# Jwt configuration
+jwt:
+    secretKey: ${JWT_SECRET_KEY:secret}
+    issuer: ${JWT_ISSUER:https://github.com/RobinSteiger}
+    expirationMinute: ${JWT_EXPIRATION_TIME_MINUTE:3600}
+    refreshExpirationMinute: ${JWT_REFRESH_EXPIRATION_TIME_MINUTE:86400}
+
+management:
+    endpoint:
+            health:
+                show-details: ALWAYS
+
+  
