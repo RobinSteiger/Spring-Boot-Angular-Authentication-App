@@ -1,0 +1,83 @@
+<div class="header-container">
+  <div class="header-items">
+
+    <!-- BURGER MENU -->
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <!-- HOME -->
+    <div class="header-item">
+      <a
+        class="header-link"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLink]="ROOT_URLS.home"
+      >
+        Home
+      </a>
+    </div>
+
+    <!-- NOT LOGGED IN -->
+    @if (!isUserLoggedIn()) {
+      <!-- LOGIN -->
+      <div class="header-item">
+        <a
+          class="header-link"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [routerLink]="AUTH_URLS.login"
+        >
+          Login
+        </a>
+      </div>
+
+      <!-- REGISTER -->
+      <div class="header-item">
+        <a
+          class="header-link"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [routerLink]="AUTH_URLS.register"
+        >
+          Register
+        </a>
+      </div>
+
+    <!-- USER LOGGED IN -->  
+    } @else {
+
+      <!-- ADMIN -->
+      @if (canAccess(['admin'])) {
+        <!-- USER GESTION -->
+        <div class="header-item">
+          <a
+            class="header-link"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            [routerLink]="ADMIN_URLS.user_gestion"
+          >
+            User Gestion
+          </a>
+        </div>
+      }
+
+      <!-- LOGOUT -->
+      <div class="header-item">
+        <a
+          class="header-link"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="logOutUser()"
+        >
+          Logout
+        </a>
+      </div>
+    }
+
+    <!-- THEME BUTTON -->
+    <div class="header-item">
+      <app-theme-button />
+    </div>    
+  </div>
+</div>

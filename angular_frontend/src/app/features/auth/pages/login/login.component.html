@@ -1,0 +1,37 @@
+<h1 class="first-heading__title">Login</h1>
+
+<form [formGroup]="loginForm" (ngSubmit)="sendForm()" class="form-container login-form">
+    <mat-form-field appearance="fill" class="form-field__container">
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-label>Username</mat-label>
+        <input matInput class="input--primary" formControlName="username" required (blur)="formControls.username.invalid" />
+        @if (formControls.username.invalid) {
+        <mat-error class="error">{{ messages.usernameHelpText }}</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field__container">
+        <mat-icon matPrefix>lock</mat-icon>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password" required (blur)="formControls.password.invalid" />
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
+        <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        @if (formControls.password.invalid) {
+        <mat-error>{{ messages.passwordHelpText }}</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="form-field__container">
+        <button type="submit" class="button--primary" [disabled]="loginForm.invalid || formState().isLoading">
+            Login
+        </button>
+    </div>
+    <div>
+      <p class="form-footer__paragraph">
+        <a class="form-footer__link" [routerLink]="authUrls.register">
+          <ng-container>Don't have an account yet? Register</ng-container>
+        </a>
+      </p>
+    </div>
+</form>

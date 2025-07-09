@@ -1,0 +1,22 @@
+@use 'base/foundation';
+@use 'base/z-index';
+@use 'base/border-radius';
+@use 'base/themes';
+@use 'base/spacing';
+@use 'base/typography';
+
+
+@use 'components/forms';
+@use 'components/buttons';
+@use 'components/inputs';
+@use 'components/table';
+
+// Base
+@include foundation.foundation;
+@include themes.themes;
+@include typography.typography;
+// Components
+@include forms.forms;
+@include buttons.buttons;
+@include inputs.inputs;
+@include table.table;

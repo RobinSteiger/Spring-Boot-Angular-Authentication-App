@@ -1,0 +1,40 @@
+@use 'base/media-queries' as mq;
+@use 'components/pages';
+
+$register-form-max-width: 400px;
+
+:host {
+    @include pages.display-page;
+
+    text-align: center; 
+    align-items: center;
+    
+    .register-form {
+        position: relative;
+        max-width: $register-form-max-width;
+        padding: var(--spacing-r-4xl) var(--spacing-r-xl);
+        margin-block-start: var(--spacing-r-5xl);
+
+        @include mq.for-tablet-up {
+            padding: var(--spacing-r-5xl) var(--spacing-r-xl);
+            margin-block-start: var(--spacing-r-6xl);
+        }
+
+        .form-field__container {
+            text-align: center;
+
+            .button--primary {
+                display: inline-block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            mat-error {
+                text-align: left;
+                margin-top: var(--spacing-r-sm);
+                color: red;
+                font-size: var(--font-size-xs);
+            }
+        }
+    }
+}

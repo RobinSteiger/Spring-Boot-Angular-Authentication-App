@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+
+@mixin inputs() {
+    // Form inputs ///
+    
+    @include mat.form-field-overrides((
+        filled-input-text-color: var(--inputs-color),
+        filled-input-text-placeholder-color: var(--inputs-placeholder-color),
+
+        filled-active-indicator-color: var(--inputs-border-color),
+        filled-hover-active-indicator-color: var(--inputs-border-color-hover),
+        filled-focus-active-indicator-color: var(--inputs-border-color-focus),
+
+        filled-caret-color: var(--inputs-color-focus),
+
+        filled-container-color: var(--inputs-background-color),
+
+        filled-label-text-color: var(--inputs-color),
+        filled-hover-label-text-color: var(--inputs-color-hover),
+        filled-focus-label-text-color: var(--inputs-color-focus),
+    ));
+}

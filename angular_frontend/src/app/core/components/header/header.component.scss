@@ -1,0 +1,94 @@
+@use 'base/media-queries' as mq;
+
+$line-active-item-bottom: -31px;
+
+:host {
+    .header-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        min-height: var(--spacing-r-10xl);
+        border-bottom: 1px solid var(--septenary-contrast);
+
+        @include mq.for-tablet-up {
+            flex-direction: row;
+            justify-content: center;
+            padding: 0 var(--spacing-r-xl);
+        }
+
+        &.open {
+            padding-bottom: var(--spacing-3xl);
+        }
+    }
+
+    .header-items {
+        display: none;
+        gap: var(--spacing-r-lg);
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+
+        @include mq.for-tablet-up {
+            display: flex;
+            flex-flow: row wrap;
+
+            .header-item:last-child {
+                margin-left: auto;
+            }
+        }
+    }
+
+    .header-item {
+        display: block;
+        margin: var(--spacing-md) 0;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--text-color-secondary-hover);
+        }
+
+        @include mq.for-tablet-up {
+            margin: var(--spacing-xxl) var(--spacing-lg);
+
+            &:first-of-type {
+                margin: 0 var(--spacing-md) 0;
+            }
+
+            &:last-of-type {
+                margin-right: var(--spacing-sm);
+            }
+
+            &:nth-child(-n + 0) {
+                align-self: flex-start;
+            }
+        }
+    }
+
+    .header-link {
+        font-size: var(--font-size-md);
+        color: var(--text-color-secondary);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--text-color-secondary-hover);
+        }
+
+        @include mq.for-tablet-up {
+            &.active {
+              position: relative;
+
+              &::after {
+                position: absolute;
+                bottom: $line-active-item-bottom;
+                left: 0;
+                width: 100%;
+                height: var(--spacing-xs);
+                content: '';
+                background-color: var(--full-contrast);
+              }
+            }
+          }
+    }
+
+}

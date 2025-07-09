@@ -1,0 +1,43 @@
+@use 'base/media-queries' as mq;
+@use 'components/pages';
+
+:host {
+  @include pages.display-page;
+
+  max-width: 50rem;
+  text-align: center;
+  
+  .mat-column-Id {
+    border-right: 1px solid var(--page-color);
+    text-align: center;
+  }
+
+  .mat-column-Username {
+    max-width: 16rem;
+    width: 16rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mat-column-Roles {
+    max-width: 14rem;
+    width: 14rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mat-column-Actions {
+    width: 15rem;
+    justify-content: space-between;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: space-around;
+    align-items: start;
+  }
+}

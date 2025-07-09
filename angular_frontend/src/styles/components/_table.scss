@@ -1,0 +1,36 @@
+@use 'base/media-queries' as mq;
+@use '@angular/material' as mat;
+
+@mixin table() {
+
+    @include mat.table-overrides((
+        background-color: var(--page-background),
+        header-headline-color: var(--page-color),
+        row-item-label-text-color: var(--page-color)
+    ));
+
+    .table-container {
+        
+        font-family: var(--inter-font);
+        font-size: var(--font-size-md);
+
+        .table {
+            margin-top: var(--spacing-r-3xl);
+            margin-bottom: var(--spacing-r-5xl);
+            width: 100%;
+            border-collapse: collapse;
+
+            .mat-mdc-row:hover .mat-mdc-cell {
+                background-color: var(--buttons-background-hover);
+            }
+        }
+    }
+
+    :host ::ng-deep .mat-mdc-paginator .mat-mdc-select-value-text {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 2.5em;
+  padding-left: 0.5em;
+}
+}
