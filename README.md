@@ -26,14 +26,7 @@ The project demonstrates a modern, secure authentication flow using JWT (JSON We
 - **JWT Authentication**: Stateless, signed tokens for user sessions.
 - **Refresh Tokens**: Securely issued and stored for session renewal.
 - **Password Encoding**: User passwords are hashed using a strong encoder.
-- **Spring Data JPA**: for database access
-- **Input validation** for API requests
-- **CORS**: Only allows requests from trusted origins (e.g., Angular app).
-- **Exception Handling**: Centralized error responses to avoid information leaks.
-
-- **Route Guards**: Prevent unauthorized access to protected routes.
-- **Token Management**: JWT and refresh tokens are stored securely in local storage.
-- **Interceptor**: Automatically attaches JWT to outgoing API requests.
+- **Input validation**: Sanitize data for database
 
 ---
 
