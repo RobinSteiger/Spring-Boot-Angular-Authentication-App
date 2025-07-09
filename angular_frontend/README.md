@@ -1,59 +1,52 @@
-# TO IMPLEMENT
+# Angular Frontend – Authentication & User Management
 
-https://github.com/Ismaestro/angular-example-app?tab=readme-ov-file
+## Overview
 
-- In a onglet gestion des utilisateurs, tableau des utilisateurs (couleurs alternée dans le tableau)
-- Plusieurs champs de 
-    recherche selon nom d'utilisateurs,
-    filtre par role,
-    filtre par status (actif, inactif)
-    trié par : nom(a-z) ou inverse, status
-- Dans la dernière colone a coté de chaque utilisateur, 2 boutons edit et delete, pour modifier les utilisateurs
-- ?? bouton pour modifier spécifiquement les roles dans le edit ??
-- En bas, bouton de création d'utilisateur, avec champs déroulant pour les roles
+This project is the frontend SPA for the Spring Boot + Angular Authentication App. It provides a modern, responsive user interface for authentication, user management, and role-based access control, built with **Angular v20**.
 
-Exemple : https://youtu.be/YI9RTtoNXgQ
+## Features
 
-Best practices : https://medium.com/@animeshshr/10-angular-best-practices-every-developer-should-know-in-2025-edd5c4ecdd64
+- **User Authentication**: Login, registration, and JWT-based session management
+- **Role-based Access**: Guards and UI logic for admin/user roles
+- **User Management (Admin)**:
+  - List users in a sortable, filterable table
+  - Search by username, filter by role/status
+  - Edit and delete users
+  - Create new users with role selection
+- **Responsive UI**: Modern design, reusable components
+- **Token Storage**: Securely stores JWT and refresh tokens in local storage
+- **API Integration**: Communicates with the Spring Boot backend for all operations
+- **Route Guards**: Protects routes for authenticated/unauthenticated users
+- **Theming**: Theme switcher for light/dark mode
 
-Core contient le central, transversal, singleton, non UI
-Shared contient les composants, pipes, directives ré-utilisables
-Features contient les domaines métiers autonome, foncionnalités isolée
+## Getting Started
 
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm (v9+ recommended)
 
+### Setup & Run
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the development server:
+   ```bash
+   ng serve
+   ```
+   The app will be available at [http://localhost:4200](http://localhost:4200).
 
-# MODEL FINE TUNING
+3. Ensure the backend API is running at `http://localhost:8080` (or update the API URL in `src/environments/environment.ts`).
 
-Pour les modeles pré-entrainé / dataset : https://huggingface.co/docs/transformers/training
+## Environment Configuration
 
-Tuto & explication on fine-tuning image model : https://pyimagesearch.com/2019/06/03/fine-tuning-with-keras-and-deep-learning
+Edit `src/environments/environment.ts` to set the backend API URL and other environment-specific settings.
 
-Fine-Tuning Llama3.2 3B with Tutorial : https://github.com/shaheennabi/Production-Ready-Instruction-Finetuning-of-Meta-Llama-3.2-3B-Instruct-Project
+## Customization
+- **UI/Theme**: Modify styles in `src/styles/` or use the theme switcher.
+- **Roles**: Update role logic in guards and user management components.
+- **API Endpoints**: Adjust endpoints in the service files if your backend changes.
 
-From Yves :
-    Entreprise : https://www.visium.com/
-    For practices (certification ??) : https://www.hackerrank.com/skills-verification/software_engineer
+---
 
-
-src/
-│
-├── core/              # Services transversaux, interceptors, guards
-├── shared/            # Composants/réutilisables : boutons, pipes, directives
-├── features/          # Une feature = 1 dossier
-│   ├── dashboard/
-│   │   ├── dashboard.component.ts
-│   │   ├── dashboard.component.html
-│   │   ├── dashboard.component.scss
-│   │   ├── dashboard.routes.ts
-│   │   └── dashboard.service.ts
-│   └── auth/
-│       ├── login.component.ts
-│       ├── auth.service.ts
-│       └── auth.routes.ts
-│
-├── app.routes.ts      # Définition centralisée des routes
-├── main.ts            # Bootstrap de l'app
-└── style.scss         # Style global
-
-
-https://github.com/gothinkster/angular-realworld-example-app/blob/main/src/app/core/layout/header.component.ts
+For backend setup and full-stack integration, see the root `README.md`.
