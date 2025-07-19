@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.steigerrobin.restapi.dto.AllUsersDto;
+import com.steigerrobin.restapi.dto.UsersDto;
 import com.steigerrobin.restapi.dto.ApiResponse;
 import com.steigerrobin.restapi.dto.UserDetailsDto;
 import com.steigerrobin.restapi.security.utils.SecurityConstants;
@@ -29,8 +29,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> allUsers() {
-        List<AllUsersDto> allUsers = userService.getAllUsers();
-        ApiResponse<List<AllUsersDto>> apiResponse = new ApiResponse<>(true, allUsers);
+        List<UsersDto> allUsers = userService.getAllUsers();
+        ApiResponse<List<UsersDto>> apiResponse = new ApiResponse<>(true, allUsers);
         return ResponseEntity.ok(apiResponse);
     }
 

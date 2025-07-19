@@ -13,6 +13,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.steigerrobin.restapi.exception.InvalidTokenException;
 import com.steigerrobin.restapi.security.dto.AuthenticatedUserDto;
+import com.steigerrobin.restapi.utils.MessageAccessor;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,11 @@ import lombok.RequiredArgsConstructor;
 public class JwtTokenManager {
 
     private final JwtProperties properties;
+
+    private final MessageAccessor messageAccessor;
+
+    private final String ACCCESS_TOKEN_NOT_FOUND_MESSAGE = "access_token_not_found";
+
 
     public String generateToken(AuthenticatedUserDto user) {
         
@@ -64,7 +70,8 @@ public class JwtTokenManager {
         final JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(properties.getSecretKey().getBytes())).build();
 		return jwtVerifier.verify(token);
         } catch (JWTVerificationException | IllegalArgumentException e) {
-            throw new InvalidTokenException(e.getMessage());
+            String message = messageAccessor.getMessage(ACCCESS_TOKEN_NOT_FOUND_MESSAGE);
+            throw new InvalidTokenException(message, 3000);
         }
     }
     

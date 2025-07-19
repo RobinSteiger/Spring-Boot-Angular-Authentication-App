@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AllUsersDto {
+public class UsersDto {
     private Long id;
 
     private String username;

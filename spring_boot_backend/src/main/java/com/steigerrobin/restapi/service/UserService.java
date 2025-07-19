@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.steigerrobin.restapi.dto.AllUsersDto;
 import com.steigerrobin.restapi.dto.UserDetailsDto;
+import com.steigerrobin.restapi.dto.UsersDto;
 import com.steigerrobin.restapi.exception.ResourceNotFoundException;
 import com.steigerrobin.restapi.mapper.UserMapper;
 import com.steigerrobin.restapi.model.User;
@@ -23,7 +23,7 @@ public class UserService {
     
     private final UserRepository userRepository;
 
-    public List<AllUsersDto> getAllUsers() {
+    public List<UsersDto> getAllUsers() {
         return userRepository.findAll().stream()
             .map(user -> UserMapper.INSTANCE.convertToAllUsersDto(user))
             .collect(Collectors.toList());

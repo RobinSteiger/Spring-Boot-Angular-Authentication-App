@@ -24,11 +24,14 @@ public class GlobalExceptionHandler {
 
     private final MessageAccessor messageAccessor;
 
-    // Invalid Jwt Token
+    // Invalid Token, contain internal exception code
     @ExceptionHandler(InvalidTokenException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleInvalidTokenExceptions(InvalidTokenException exception) {
-        return exception.getMessage();
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Map<String, Object> handleInvalidTokenExceptions(InvalidTokenException exception) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", exception.getMessage());
+        response.put("internalCode", exception.getInternalCode());
+        return response;
     }
 
     // Registration 
@@ -89,7 +92,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleGeneralException(Exception exception) {
-        exception.printStackTrace();
+        //exception.printStackTrace();
         return messageAccessor.getMessage("error.general");
     }
     

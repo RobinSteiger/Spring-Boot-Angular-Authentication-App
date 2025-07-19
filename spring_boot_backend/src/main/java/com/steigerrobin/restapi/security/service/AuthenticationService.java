@@ -62,7 +62,7 @@ public class AuthenticationService {
     // Refresh Token service
     private final RefreshTokenService refreshTokenService;
     // Message name
-    private final String REFRESH_TOKEN_NOT_FOUND_MESSAGE = "refresh_token_not_exists";
+    private final String REFRESH_TOKEN_NOT_FOUND_MESSAGE = "refresh_token_not_found";
     private final String REFRESH_TOKEN_EXPIRED_MESSAGE = "refresh_token_expired";
 
 
@@ -117,14 +117,19 @@ public class AuthenticationService {
 
     public RefreshTokenResponse refreshTokenRequest(RefreshTokenRequest refreshRequest) {
         RefreshToken refreshToken = refreshTokenService.findByToken(refreshRequest.getRefreshToken());
+       
         // Exception gestion ///
-        if (refreshToken == null || refreshTokenService.isExpired(refreshToken)) {
-            String exceptionMessage = messageAccessor.getMessage(REFRESH_TOKEN_EXPIRED_MESSAGE);
-            if (refreshToken == null) {
-                exceptionMessage = messageAccessor.getMessage(REFRESH_TOKEN_NOT_FOUND_MESSAGE);
-            }
-            log.warn(exceptionMessage);
-            throw new InvalidTokenException(exceptionMessage); 
+
+        if (refreshToken == null) {
+            String message = messageAccessor.getMessage(REFRESH_TOKEN_NOT_FOUND_MESSAGE);
+            log.warn(message);
+            throw new InvalidTokenException(message, 3001);
+        }
+
+        if (refreshTokenService.isExpired(refreshToken)) {
+            String message = messageAccessor.getMessage(REFRESH_TOKEN_EXPIRED_MESSAGE);
+            log.warn(message);
+            throw new InvalidTokenException(message, 3003);
         }
 
         final String username = refreshToken.getUser().getUsername();

@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-import com.steigerrobin.restapi.dto.AllUsersDto;
 import com.steigerrobin.restapi.dto.UserDetailsDto;
+import com.steigerrobin.restapi.dto.UsersDto;
 import com.steigerrobin.restapi.model.User;
 import com.steigerrobin.restapi.security.dto.AuthenticatedUserDto;
 import com.steigerrobin.restapi.security.dto.RegistrationRequest;
@@ -22,7 +22,7 @@ public interface UserMapper {
 
 	AuthenticatedUserDto convertToAuthenticatedUserDto(User user);
 
-	AllUsersDto convertToAllUsersDto(User user);
+	UsersDto convertToAllUsersDto(User user);
 
 	UserDetailsDto convertToUserDetailsDto(User user);
 
