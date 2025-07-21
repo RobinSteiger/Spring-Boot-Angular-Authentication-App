@@ -53,10 +53,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         
         try {
 
-            // Bypass filter verification if login || register ///
+            // Bypass filter verification if login || register || refresh ///
             final String requestURI = req.getRequestURI();
             if (requestURI.contains(SecurityConstants.LOGIN_REQUEST_URI) ||
-                requestURI.contains(SecurityConstants.REGISTRATION_REQUEST_URI)) {
+                requestURI.contains(SecurityConstants.REGISTRATION_REQUEST_URI) ||
+                requestURI.contains(SecurityConstants.REFRESH_TOKEN_REQUEST_URI)) {
                     chain.doFilter(req, res);
                     return;
             }
@@ -86,10 +87,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     // Token not validated ///
                     if (jwtTokenManager.isTokenExpired(token)) {
                         String message = messageAccessor.getMessage(ACCESS_TOKEN_EXPIRED_MESSAGE);
+                        // TODO : Fix logging not displayed
                         log.warn(message);
                         throw new InvalidTokenException(message, 3002);
                     } else {
                         String message = messageAccessor.getMessage(ACCESS_TOKEN_NOT_FOUND_MESSAGE);
+                        // TODO : Fix logging not displayed
                         log.warn(message);
                         throw new InvalidTokenException(message, 3000);
                     }
