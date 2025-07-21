@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -42,29 +39,15 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
-    // Authentication Manager 
-    @ExceptionHandler({ BadCredentialsException.class})
+    // Login
+    @ExceptionHandler(LoginException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String handleBadCredentialsExceptions(Exception exception) {
-        System.out.println("BadCredentialsException : "+ exception.getMessage());
-        return exception.getMessage();
+    public Map<String, Object> handleLoginTokenExceptions(LoginException exception) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", exception.getMessage());
+        response.put("internalCode", exception.getInternalCode());
+        return response;
     }
-
-    @ExceptionHandler({ UsernameNotFoundException.class })
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String handleUsernameNotFoundExceptions(Exception exception) {
-        System.out.println("UsernameNotFoundException : "+ exception.getMessage());
-        return messageAccessor.getMessage("error.login");
-    }
-
-    @ExceptionHandler({ InternalAuthenticationServiceException.class })
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String handleAuthenticationExceptions(Exception exception) {
-        System.out.println("LoginException : "+ exception.getMessage());
-        return messageAccessor.getMessage("error.login");
-    }
-
-    
 
     // Resources not found
     @ExceptionHandler(ResourceNotFoundException.class)

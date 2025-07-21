@@ -38,7 +38,6 @@ public class AuthenticationController {
     // Login ///
     @PostMapping(SecurityConstants.LOGIN_REQUEST_URI)
     public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
-        System.out.println("Into Login");
         LoginResponse response = authenticationService.loginRequest(request);
         ApiResponse<LoginResponse> apiResponse = new ApiResponse<>(true, response);
         return ResponseEntity.ok(apiResponse);

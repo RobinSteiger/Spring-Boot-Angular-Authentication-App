@@ -5,12 +5,14 @@ import java.util.Set;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.steigerrobin.restapi.exception.InvalidTokenException;
+import com.steigerrobin.restapi.exception.LoginException;
 import com.steigerrobin.restapi.exception.RegistrationException;
 import com.steigerrobin.restapi.mapper.UserMapper;
 import com.steigerrobin.restapi.model.EnumUserRole;
@@ -101,8 +103,15 @@ public class AuthenticationService {
         // Token for authentication
         final UsernamePasswordAuthenticationToken authenticationToken = 
             new UsernamePasswordAuthenticationToken(username, password);
+
         // Throw exception if incorrect
-        authenticationManager.authenticate(authenticationToken);
+        try {
+            authenticationManager.authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            String message = messageAccessor.getMessage("login_error");
+            log.warn(message);
+            throw new LoginException(message, 2002);
+        }
 
         // Jwt token generation using a dto
         final AuthenticatedUserDto authenticatedUserDto = findAuthenticatedUserByUsername(username);
