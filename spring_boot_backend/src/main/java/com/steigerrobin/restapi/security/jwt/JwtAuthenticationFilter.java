@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.steigerrobin.restapi.exception.InvalidTokenException;
 import com.steigerrobin.restapi.security.utils.SecurityConstants;
@@ -37,6 +38,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final MessageAccessor messageAccessor;
 
+    private final HandlerExceptionResolver handlerExceptionResolver;
+
     private final String ACCESS_TOKEN_NOT_FOUND_MESSAGE = "access_token_not_found";
     private final String ACCESS_TOKEN_EXPIRED_MESSAGE = "access_token_expired";
 
@@ -47,6 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         HttpServletResponse res, 
         FilterChain chain
     ) throws ServletException, IOException {
+        
         try {
 
             // Bypass filter verification if login || register ///
@@ -94,8 +98,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // Launch next filter ///
             chain.doFilter(req, res);
-        } catch(InvalidTokenException exception) {
 
+        } catch (Exception e) {
+            handlerExceptionResolver.resolveException(req, res, null, e);
         }
     }
 }
