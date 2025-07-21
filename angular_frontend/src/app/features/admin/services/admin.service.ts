@@ -16,7 +16,7 @@ export class AdminService {
   private readonly endpoints = getEndpoints();
   private readonly httpClient = inject(HttpClient);
 
-  getUsers(): Observable<UserDisplayResponseData> {
+  getUsers(): Observable<UserDisplayResponseData[]> {
     return this.httpClient
       .get<UserDisplayResponse>(
         this.endpoints.admin.v1.user
@@ -54,8 +54,11 @@ export class AdminService {
   }
 
   getAllRoles(): Observable<String[]> {
-    return this.httpClient.get<UserRole[]>(`${this.baseUrl}/role`).pipe(
-      map(roles => roles.map(formatRoletoString)
+    return this.httpClient
+      .get<UserRole[]>(
+        this.endpoints.admin.v1.role)
+      .pipe(
+        map(roles => roles.map(formatRoletoString)
     ));
   }
 } 

@@ -6,7 +6,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { authenticationInterceptor } from './core/interceptors/auth.interceptor';
 import { ENVIRONMENT } from './core/tokens/environment.token';
 import { environment } from '../environments/environment';
 
@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       // Link directly @Input in a component with the :param in the route ///
       withComponentInputBinding(),
     ),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authenticationInterceptor])),
     importProvidersFrom(BrowserAnimationsModule),
   ]
 };

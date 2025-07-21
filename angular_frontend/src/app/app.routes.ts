@@ -24,14 +24,4 @@ export const appRoutes: Routes = [
         (module_) => module_.ADMIN_ROUTES,
       ),
   },
-  /*{ 
-    path: 'dashboard',
-    component: DashboardComponent,
-    children: [
-      { path: '', component: DashboardHomeComponent },
-      { path: 'user-gestion', component: UserDisplayComponent },
-      //{ path: 'role-gestion', component: RoleGestionComponent },
-    ],
-    canActivate: [authGuard]
-  },*/
 ];

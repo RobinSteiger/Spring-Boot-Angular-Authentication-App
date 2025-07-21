@@ -1,13 +1,14 @@
-  import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
-  import { AdminService } from '../../../services/admin.service';
-  import { Router } from '@angular/router';
-  import { CommonModule } from '@angular/common';
-  import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-  import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-  import { MatDialog } from '@angular/material/dialog';
-  import { UserEditComponent } from '../user-edit/user-edit.component';
-import { UserDisplay } from '../../../types/user-display-response.type';
+import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
+import { AdminService } from '../../../services/admin.service';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { UserEditComponent } from '../user-edit/user-edit.component';
+import type { UserDisplayResponse, UserDisplayResponseData } from '../../../types/user-display-response.type';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { formatRoletoString, type UserRole } from '../../../../../core/types/user-role.type';
     // https://material.angular.dev/components/table/overview
 
   @Component({
@@ -26,10 +27,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     private readonly snackBar = inject(MatSnackBar);
     private readonly dialog = inject(MatDialog);
 
-    users: UserDisplay[] = [];
+    users: UserDisplayResponseData[] = [];
     error: string = '';
 
-    dataSource = new MatTableDataSource<any>();
+    dataSource = new MatTableDataSource<UserDisplayResponseData>();
     displayedColumns: string[] = ['Id', 'Username', 'Roles', 'Actions'];
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -54,6 +55,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
           this.showError('Failed to load users. Please try again later.');
         }
       });
+    }
+
+    formatRoletoString(role: UserRole): string {
+      return formatRoletoString(role);
     }
 
     showError(message: string) {

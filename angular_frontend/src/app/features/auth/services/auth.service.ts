@@ -81,6 +81,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<RefreshTokenResponseData> {
+    console.log("Refresh Token request");
     return this.httpClient
       .post<RefreshTokenResponse>(this.endpoints.auth.v1.refresh, {
         refreshToken: this.storageService?.getItem(REFRESH_TOKEN_KEY),
