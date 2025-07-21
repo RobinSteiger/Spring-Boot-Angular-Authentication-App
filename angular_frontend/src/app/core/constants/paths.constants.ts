@@ -3,7 +3,7 @@
 **/
 
 export const ROOT_PATHS = {
-    home: 'home',
+    home: '',
     error404: '404',
 };
 

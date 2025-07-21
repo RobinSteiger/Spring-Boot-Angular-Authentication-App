@@ -14,6 +14,8 @@ import { passwordValidator } from '../../validator/password.validator';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { AlertStore } from '../../../../core/services/ui/alert.store';
+import { AppError } from '../../../../core/enums/app-error.enum';
 
 @Component({
     selector: 'app-login',
@@ -29,6 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
     styleUrl: 'login.component.scss',
 })
 export class LoginComponent {
+  private readonly alertStore = inject(AlertStore);
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
@@ -80,7 +83,7 @@ export class LoginComponent {
         }),
         catchError((error : HttpErrorResponse) => {
           console.log(error.error);
-          this.handleLoginError(error.error);
+          this.handleLoginError(error);
           return EMPTY;
         })
       )
@@ -89,10 +92,16 @@ export class LoginComponent {
       });
   }
 
-   private handleLoginError(err : String): void {
-    console.error('Registration error');
-    this.showError('Login failed.\n Cause: '+ err + '\nPlease try again.');
-    this.updateFormState({ isLoading: false });
+   private handleLoginError(error : HttpErrorResponse): void {
+    const errorMessage = 
+      error.error.internalCode == AppError.INVALID_CREDENTIALS
+      ? messages.loginCredentialsError
+      : messages.genericErrorAlert;
+      console.log(errorMessage);
+    this.alertStore.createErrorAlert(errorMessage);
+    //console.error('Registration error');
+    //this.showError('Login failed.\n Cause: '+ err + '\nPlease try again.');
+    //this.updateFormState({ isLoading: false });
   }
 
   showError(message: string) {
