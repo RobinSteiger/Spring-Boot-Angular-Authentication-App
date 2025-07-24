@@ -99,18 +99,6 @@ export class LoginComponent {
       : messages.genericErrorAlert;
       console.log(errorMessage);
     this.alertStore.createErrorAlert(errorMessage);
-    //console.error('Registration error');
-    //this.showError('Login failed.\n Cause: '+ err + '\nPlease try again.');
-    //this.updateFormState({ isLoading: false });
-  }
-
-  showError(message: string) {
-    this.snackBar.open(message, '×', {
-      duration: 4000,
-      panelClass: ['error-snackbar'],
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
   }
 
   togglePasswordVisibility(event: MouseEvent) {

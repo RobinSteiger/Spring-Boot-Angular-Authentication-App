@@ -1,0 +1,68 @@
+<h1 mat-dialog-title>Edit User</h1>
+
+<mat-dialog-content>
+
+    <form [formGroup]="userEditForm" (ngSubmit)="editUser()" class="form-container user-edit-form">
+
+        <mat-form-field appearance="fill" class="form-field__container">
+            <mat-icon matPrefix>person</mat-icon>
+            <mat-label>First Name</mat-label>
+            <input matInput class="input--primary" formControlName="firstname" required (blur)="formControls.firstname.invalid" />
+            @if (formControls.firstname.invalid) {
+            <mat-error class="error">{{ messages.firstNameHelpText }}</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form-field__container">
+            <mat-icon matPrefix>person</mat-icon>
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastname" required (blur)="formControls.lastname.invalid" />
+            @if (formControls.lastname.invalid) {
+            <mat-error>{{ messages.lastNameHelpText }}</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form-field__container">
+            <mat-icon matPrefix>email</mat-icon>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" required (blur)="formControls.email.invalid" />
+            @if (formControls.email.invalid) {
+            <mat-error>{{ messages.emailHelpText }}</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form-field__container">
+            <mat-icon matPrefix>account_circle</mat-icon>
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" required (blur)="formControls.username.invalid" />
+            @if (formControls.username.invalid) {
+            <mat-error>{{ messages.usernameHelpText }}</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form-field__container roles-select-field">
+            <mat-icon matPrefix>supervisor_account</mat-icon>
+            <mat-label>Roles</mat-label>
+            <mat-select formControlName="userRole" multiple [compareWith]="compareRoles">
+
+                <mat-select-trigger>
+                    {{ formatRoleListToString(formControls.userRole.getRawValue()) }}
+                </mat-select-trigger>
+                
+                <mat-option *ngFor="let role of availableRole" [value]="role">
+                    {{ formatRoletoString(role) }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-dialog-actions>
+            
+                <button mat-dialog-close class="button--primary">Cancel</button>
+                <button type="submit" class="button--primary" [disabled]="userEditForm.invalid">
+                    Confirm
+                </button>
+            
+        </mat-dialog-actions>
+    </form>
+</mat-dialog-content>
+

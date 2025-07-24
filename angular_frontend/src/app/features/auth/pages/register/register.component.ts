@@ -13,10 +13,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpErrorResponse } from '@angular/common/http';
 import { passwordValidator } from '../../validator/password.validator';
+import { AlertStore } from '../../../../core/services/ui/alert.store';
 
 @Component({
     selector: 'app-register',
-    //encapsulation: ViewEncapsulation.None,
     imports: [
         ReactiveFormsModule,
         MatSnackBarModule,
@@ -29,10 +29,10 @@ import { passwordValidator } from '../../validator/password.validator';
     styleUrl: 'register.component.scss',
 })
 export class RegisterComponent {
+  private readonly alertStore = inject(AlertStore);
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
-  private readonly snackBar = inject(MatSnackBar);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly messages = messages;
@@ -146,9 +146,9 @@ export class RegisterComponent {
       } as RegisterFormValue)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        catchError((err : HttpErrorResponse) => {
-          console.log(err.error);
-          this.handleRegistrationError(err.error);
+        catchError((error : HttpErrorResponse) => {
+          console.log(error.error);
+          this.handleRegistrationError(error);
           return EMPTY;
         }),
       )
@@ -157,29 +157,13 @@ export class RegisterComponent {
       });
   }
 
-  showError(message: string) {
-    this.snackBar.open(message, '×', {
-      duration: 4000,
-      panelClass: ['error-snackbar'],
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
-  }
-
-  private handleRegistrationError(err : String): void {
-    console.error('Registration error');
-    this.showError('Registration failed.\n Cause: '+ err + '\nPlease try again.');
+  private handleRegistrationError(error : HttpErrorResponse): void {
+    this.alertStore.createErrorAlert(messages.registerError);
     this.updateFormState({ isLoading: false });
   }
 
   private handleRegistrationSuccess() : void {
-    console.log('User registered successfully');
-    this.snackBar.open('Registration successful! Please login.', '×', {
-      duration: 4000,
-      panelClass: ['success-snackbar'],
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
+    this.alertStore.createSuccessAlert(messages.registerSuccess);
     void this.router.navigate([ROOT_URLS.home]);
   }
 

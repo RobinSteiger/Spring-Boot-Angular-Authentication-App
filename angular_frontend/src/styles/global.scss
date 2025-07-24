@@ -10,6 +10,7 @@
 @use 'components/buttons';
 @use 'components/inputs';
 @use 'components/table';
+@use 'components/dialogs';
 
 // Base
 @include foundation.foundation;
@@ -20,3 +21,4 @@
 @include buttons.buttons;
 @include inputs.inputs;
 @include table.table;
+@include dialogs.dialogs;

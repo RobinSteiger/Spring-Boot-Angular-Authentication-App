@@ -1,6 +1,7 @@
 import { DOCUMENT } from "@angular/core";
 import { inject, Injectable, signal } from "@angular/core";
 import { LOCAL_STORAGE } from "../../providers/local-storage";
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 const   DARK_THEME_CLASS_NAME = "theme-dark--mode",
         LIGHT_THEME_CLASS_NAME = "theme-light--mode",

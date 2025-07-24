@@ -1,0 +1,41 @@
+@use 'base/media-queries' as mq;
+@use 'components/pages';
+
+
+:host {
+    @include pages.display-page;
+
+    align-items: center;
+    
+    .user-edit-form {
+        position: relative;
+        margin-block-start: var(--spacing-r-5xl);
+        border: 0;
+        padding: 0 0;
+
+        overflow: hidden;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+
+        @include mq.for-tablet-up {
+            padding: var(--spacing-r-5xl) var(--spacing-r-xl);
+            margin-block-start: var(--spacing-r-6xl);
+        }
+
+        .form-field__container {
+            text-align: center;
+
+            .button--primary {
+                display: inline-block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        .roles-select-field {
+            text-align: start;
+        }
+    }
+}

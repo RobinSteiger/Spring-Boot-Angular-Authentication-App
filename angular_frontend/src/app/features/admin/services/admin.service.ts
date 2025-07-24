@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../../../core/types/user.type';
 import type { UserDetailsResponse, UserDetailsResponseData } from '../types/user-details-reponse.type';
 import { formatRoletoString, UserRole } from '../../../core/types/user-role.type';
 import type { UserDisplayResponse, UserDisplayResponseData } from '../types/user-display-response.type';
-import { UserDetailsDisplay } from '../types/user-details-display.type';
 import { getEndpoints } from '../../../core/constants/endpoints.constants';
+import { UserEditFormValue } from '../pages/user-gestion/user-edit/user-edit-form.type';
+import { ApiResponse } from '../../../core/types/api-response.type';
 
 @Injectable({
   providedIn: 'root'
@@ -28,13 +28,6 @@ export class AdminService {
           return data;
         })
       );
-    /*
-    return this.http.get<User[]>(`${this.baseUrl}/user`).pipe(
-      map(users => users.map(user => ({
-        ...user,
-        userRole: user.userRole.map(formatRoletoString)
-      })))
-    );*/
   }
 
   getUserDetails(id : number) : Observable<UserDetailsResponseData> {
@@ -43,22 +36,25 @@ export class AdminService {
       `${this.endpoints.admin.v1.user}/${id}`)
     .pipe(
       map((response: UserDetailsResponse) => {
+        console.log(response);
         const { data } = response;
         return data;
       })
     );
-    /*user => ({
-        ...user,
-        userRole: user.userRole.map(formatRoletoString)
-      }*/
   }
 
-  getAllRoles(): Observable<String[]> {
+  getAllRoles(): Observable<UserRole[]> {
     return this.httpClient
-      .get<UserRole[]>(
+      .get<ApiResponse<UserRole[]>>(
         this.endpoints.admin.v1.role)
       .pipe(
-        map(roles => roles.map(formatRoletoString)
+        map((response: ApiResponse<UserRole[]>) => {
+          const { data } = response;
+          return data;
+        }
     ));
   }
-} 
+
+  //editUser(editUserRequest : UserEditFormValue): 
+}
+

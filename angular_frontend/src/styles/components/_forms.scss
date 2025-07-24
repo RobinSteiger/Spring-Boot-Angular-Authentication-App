@@ -11,6 +11,17 @@
             padding: var(--spacing-r-6xl) var(--spacing-r-xl);
         }
 
+        .mat-icon {
+            color: var(--page-color);
+        }
+
+        mat-error {
+            text-align: left;
+            margin-top: var(--spacing-r-sm);
+            color: red;
+            font-size: var(--font-size-xs);
+        }
+
         .form-field__container {
             margin-block: var(--spacing-r-3xl);
             font-family: var(--inter-font);
@@ -20,6 +31,7 @@
 
             .button--primary {
                 margin-block-start: var(--spacing-r-md);
+                margin-right: var(spacing-r-md);
             }
 
             &:first-of-type {

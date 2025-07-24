@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+@mixin dialogs() {
+    :root {
+        @include mat.dialog-overrides((
+            container-color: var(--page-background),
+            subhead-color: var(--page-color),
+            subhead-font: var(--inter-font),
+            subhead-size: var(--font-size-md),
+            actions-alignment: end,
+            actions-padding: var(--spacing-r-2xl),
+        ));
+
+        .backdropBackground {
+            background-color: color-mix(in oklch, var(--page-color) 30%, transparent);            
+            backdrop-filter: blur(var(--spacing-r-md));
+        }
+    }
+    
+}

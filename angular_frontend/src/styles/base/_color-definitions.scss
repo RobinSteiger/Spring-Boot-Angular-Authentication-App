@@ -27,7 +27,7 @@
   // Brand
   --brand-color-primary: var(--primitive-hot-red-mixed);
   --brand-color-secondary: var(--primitive-bright-blue-mixed);
-  --brand-color-tertiary: var(--primitive-vivid-pink-mixed);
+  --brand-color-tertiary: var(--primitive-bright-blue-mixed);
 
   // General
   --page-color: var(--full-contrast);
@@ -109,12 +109,11 @@
   --septenary-contrast: var(--primitive-gray-100);
   --octonary-contrast: var(--primitive-gray-50);
 
-  // DO NOT use grays anymore, use contrast variables
 
   // Brand
   --brand-color-primary: var(--primitive-bright-blue);
   --brand-color-secondary: var(--primitive-hot-red);
-  --brand-color-tertiary: var(--primitive-vivid-pink);
+  --brand-color-tertiary: var(--primitive-bright-blue-mixed);
 
   // General
   --page-color: var(--primary-contrast);

@@ -29,6 +29,8 @@
         color: var(--buttons-color);
         letter-spacing: -0.0088rem;
         background: var(--buttons-background);
+        margin-right: var(--spacing-r-sm);
+        margin-left: var(--spacing-r-sm);
 
         &:hover {
           background: var(--buttons-background-hover);

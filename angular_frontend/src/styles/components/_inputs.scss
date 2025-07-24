@@ -19,4 +19,16 @@
         filled-hover-label-text-color: var(--inputs-color-hover),
         filled-focus-label-text-color: var(--inputs-color-focus),
     ));
+
+    // Select //
+
+    @include mat.select-overrides((
+        enabled-trigger-text-color: var(--inputs-color),
+        disabled-trigger-text-color: var(--inputs-placeholder-color),
+        placeholder-text-color: var(--inputs-placeholder-color),
+        panel-background-color: var(--inputs-background-color),
+        enabled-arrow-color: var(--inputs-color),
+        disabled-arrow-color: var(--inputs-placeholder-color),
+        focused-arrow-color: var(--inputs-color-focus),
+    ));
 }
