@@ -10,6 +10,7 @@ import com.steigerrobin.restapi.dto.UsersDto;
 import com.steigerrobin.restapi.exception.ResourceNotFoundException;
 import com.steigerrobin.restapi.mapper.UserMapper;
 import com.steigerrobin.restapi.model.User;
+import com.steigerrobin.restapi.repository.RefreshTokenRepository;
 import com.steigerrobin.restapi.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,7 +24,10 @@ public class UserService {
     
     private final UserRepository userRepository;
 
+    private final RefreshTokenRepository refreshTokenRepository;
+
     public List<UsersDto> getAllUsers() {
+        log.info("All users retrieved!");
         return userRepository.findAll().stream()
             .map(user -> UserMapper.INSTANCE.convertToAllUsersDto(user))
             .collect(Collectors.toList());
@@ -33,6 +37,7 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(
             () -> new ResourceNotFoundException(id)
         );
+        log.info("User {} retrieved!", id);
         return UserMapper.INSTANCE.convertToUserDetailsDto(user);
     }
 
@@ -47,6 +52,7 @@ public class UserService {
                 user.setEmail(newUser.getEmail());
                 user.setUserRole(newUser.getUserRole());
                 userRepository.save(user);
+                log.info("{} modified successfully!", newUser.getUsername());
                 return UserMapper.INSTANCE.convertToUserDetailsDto(user);
             })
             .orElseThrow(
@@ -54,23 +60,13 @@ public class UserService {
             );
     }
 
+    @Transactional
     public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+            () -> new ResourceNotFoundException(id)
+        );
+        refreshTokenRepository.deleteByUser(user);
         userRepository.deleteById(id);
+        log.info("User {} deleted successfully!", id);
     }
-
-    /*public User addUser(Ligue ligue) {
-        return ligueRepository.save(ligue);
-    }
-
-    public Ligue modifyLigue(Integer id, Ligue newLigue) {
-        Ligue existingLigue = getOneLigue(id);
-        existingLigue.setName(newLigue.getName());
-        return ligueRepository.save(existingLigue);
-    }
-
-    public void deleteLigue(Integer id) {
-        // Generate the error if the ligue doesn't exist
-        getOneLigue(id);
-        ligueRepository.deleteById(id);
-    } */
 }

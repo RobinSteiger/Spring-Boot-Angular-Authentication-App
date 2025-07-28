@@ -10,6 +10,8 @@ import type { UserDisplayResponse, UserDisplayResponseData } from '../../../type
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatRoletoString, type UserRole } from '../../../../../core/types/user-role.type';
 import { OverlayContainer, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { AlertStore } from '../../../../../core/services/ui/alert.store';
+import { UserDeleteComponent } from '../user-delete/user-delete.component';
     // https://material.angular.dev/components/table/overview
 
   @Component({
@@ -26,13 +28,11 @@ import { OverlayContainer, ScrollStrategyOptions } from '@angular/cdk/overlay';
   export class UserDisplayComponent {
     private readonly router = inject(Router);
     private readonly adminService = inject(AdminService);
-    private readonly snackBar = inject(MatSnackBar);
     private readonly dialog = inject(MatDialog);
     private readonly scrollStrategy = inject(ScrollStrategyOptions);
+    private readonly alertStore = inject(AlertStore);
 
     users: UserDisplayResponseData[] = [];
-    error: string = '';
-
     dataSource = new MatTableDataSource<UserDisplayResponseData>();
     displayedColumns: string[] = ['Id', 'Username', 'Roles', 'Actions'];
 
@@ -55,7 +55,7 @@ import { OverlayContainer, ScrollStrategyOptions } from '@angular/cdk/overlay';
         },
         error: (err) => {
           console.error('Error loading users:', err);
-          this.showError('Failed to load users. Please try again later.');
+          this.alertStore.createErrorAlert('Failed to load users. Please try again later.');
         }
       });
     }
@@ -64,17 +64,7 @@ import { OverlayContainer, ScrollStrategyOptions } from '@angular/cdk/overlay';
       return formatRoletoString(role);
     }
 
-    showError(message: string) {
-      this.snackBar.open(message, '×', {
-        duration: 4000,
-        panelClass: ['error-snackbar'],
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
-    }
-
     public editUser(id: number) {
-      console.log("Open dialog");
       const dialogRef = this.dialog.open(UserEditComponent, {
         height: '85%',
         width: '50%',
@@ -91,6 +81,18 @@ import { OverlayContainer, ScrollStrategyOptions } from '@angular/cdk/overlay';
     }
 
     public deleteUser(id: number) {
+      const dialogRef = this.dialog.open(UserDeleteComponent, {
+        data: {userId : id},
+        backdropClass: 'backdropBackground',
+        scrollStrategy: this.scrollStrategy.noop(),
+      });
 
+      dialogRef.afterClosed().subscribe(result => {
+      if (result === 'deleted') {
+          this.loadUsers();
+        }
+      });
     }
+
+
   }

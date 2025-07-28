@@ -14,5 +14,5 @@ export type UserEditFormValue = {
   lastname: string;
   email: string;
   username: string;
-  userRole: FormControl<UserRole[]>;
+  userRole: UserRole[];
 };

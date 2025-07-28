@@ -55,6 +55,30 @@ export class AdminService {
     ));
   }
 
-  //editUser(editUserRequest : UserEditFormValue): 
+  editUser(id : number, editUserRequest : UserEditFormValue): Observable<UserDetailsResponseData> {
+    return this.httpClient
+      .put<UserDetailsResponse>(
+        `${this.endpoints.admin.v1.user}/${id}`,
+        {
+          firstname: editUserRequest.firstname,
+          lastname: editUserRequest.lastname,
+          email: editUserRequest.email,
+          username: editUserRequest.username,
+          userRole: editUserRequest.userRole
+      })
+      .pipe(
+        map((response: UserDetailsResponse) => {
+          const { data } = response;
+          return data;
+        })
+      )
+  }
+
+  deleteUser(id : number) {
+    return this.httpClient
+      .delete(
+        `${this.endpoints.admin.v1.user}/${id}`,
+      )
+  }
 }
 

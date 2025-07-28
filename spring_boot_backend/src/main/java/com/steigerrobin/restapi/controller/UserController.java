@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.steigerrobin.restapi.dto.UsersDto;
 import com.steigerrobin.restapi.dto.ApiResponse;
 import com.steigerrobin.restapi.dto.UserDetailsDto;
+import com.steigerrobin.restapi.dto.UsersDto;
 import com.steigerrobin.restapi.security.utils.SecurityConstants;
 import com.steigerrobin.restapi.service.UserService;
 

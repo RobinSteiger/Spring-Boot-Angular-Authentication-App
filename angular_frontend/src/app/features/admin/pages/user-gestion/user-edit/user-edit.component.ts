@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminService } from '../../../services/admin.service';
-import { MAT_DIALOG_DATA, MatDialogContent, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,9 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { AlertStore } from '../../../../../core/services/ui/alert.store';
 import { messages } from '../../../../../../resources/messages';
-import { UserEditFormGroup } from './user-edit-form.type';
+import { UserEditFormGroup, UserEditFormValue } from './user-edit-form.type';
 import { MatIconModule } from '@angular/material/icon';
 import { formatRoletoString, UserRole } from '../../../../../core/types/user-role.type';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, EMPTY } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
     selector: 'app-user-edit',
@@ -32,7 +36,8 @@ export class UserEditComponent {
   private readonly alertStore = inject(AlertStore);
   private readonly formBuilder = inject(FormBuilder);
   private readonly adminService = inject(AdminService);
-  private readonly destroyRed = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly dialogRef = inject(MatDialogRef<UserEditComponent>);
   private readonly parameter = inject(MAT_DIALOG_DATA) as {userId : number};
 
   readonly messages = messages;
@@ -119,8 +124,29 @@ export class UserEditComponent {
     });
   }
 
-  debug(val : any) : void {
-    console.log(val);
+  editUser(): void {
+    if (this.userEditForm.invalid) {
+      this.userEditForm.markAllAsTouched();
+      return;
+    }
+
+    this.adminService
+      .editUser(this.parameter.userId, {
+        ...this.userEditForm.getRawValue()
+      } as UserEditFormValue)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError((error : HttpErrorResponse) => {
+          console.log(error.error);
+          this.alertStore.createErrorAlert(error.error);
+          this.dialogRef.close('error');
+          return EMPTY;
+        }),
+      )
+      .subscribe(() => {
+        this.alertStore.createSuccessAlert("User successfully edited.");
+        this.dialogRef.close('updated');
+      });
   }
 
   formatRoletoString(role: UserRole): string {
@@ -134,28 +160,5 @@ export class UserEditComponent {
 
   compareRoles(role1: UserRole, role2: UserRole): boolean {
     return role1 && role2 && role1.id === role2.id;
-  }
-
-  editUser() {}
-
-  /*onSubmit() {
-    if (this.form.invalid) return;
-
-    const updatedUser = {
-      id: this.data.userId,
-      ...this.form.value
-    };
-/*
-    this.adminService.updateUser(updatedUser).subscribe({
-      next: () => {
-        this.snackBar.open("User updated successfully", "Close", { duration: 3000 });
-        this.dialogRef.close('updated');
-      },
-      error: () => {
-        this.snackBar.open("Failed to update user", "Close", { duration: 3000 });
-      }
-    });
-     */
-  
-   
+  } 
 }

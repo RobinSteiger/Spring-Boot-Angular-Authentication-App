@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleGeneralException(Exception exception) {
-        //exception.printStackTrace();
+        exception.printStackTrace();
         return messageAccessor.getMessage("error.general");
     }
     

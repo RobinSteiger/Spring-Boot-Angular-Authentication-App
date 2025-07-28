@@ -6,6 +6,7 @@
     @include pages.display-page;
 
     align-items: center;
+    overflow: auto;
     
     .user-edit-form {
         position: relative;
@@ -16,7 +17,7 @@
         overflow: hidden;
         scrollbar-width: none;
         &::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge */
+            display: none;
         }
 
         @include mq.for-tablet-up {
